@@ -14,7 +14,6 @@ export const ArchiveThreadAction = automodAction({
       .filter((c): c is ThreadChannel => c?.isThread() ?? false);
 
     for (const thread of threads) {
-      if (thread.archived) continue;
       await thread.setArchived().catch(noop);
     }
   },
