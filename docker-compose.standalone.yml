@@ -28,8 +28,8 @@ services:
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
-    ports:
-      - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
+    # ports:
+    #   - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
 
   migrate:
     depends_on:
@@ -88,3 +88,10 @@ services:
       - .env
     working_dir: /zeppelin/dashboard
     command: ["node", "serve.js"]
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token $TUNNEL_TOKEN
+    depends_on:
+      - nginx
