@@ -52,6 +52,7 @@ services:
       - .env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "migrate-prod"]
+    exclude_from_hc: true
 
   api:
     depends_on:
