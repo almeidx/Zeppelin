@@ -7,6 +7,8 @@ services:
       args:
         # Used at compile-time by dashboard
         API_URL:
+    networks: [coolify]
+    restart: no
     environment: &env
       - NODE_ENV=production
       - DB_HOST=${LIGHTWEIGHT_DB_HOST}
@@ -25,6 +27,7 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
+    networks: [coolify]
     restart: on-failure
     environment: *env
     env_file:
@@ -39,6 +42,7 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
+    networks: [coolify]
     restart: on-failure
     environment: *env
     env_file:
@@ -51,6 +55,7 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
+    networks: [coolify]
     restart: on-failure
     environment: *env
     env_file:
@@ -59,3 +64,13 @@ services:
       - "${LIGHTWEIGHT_DASHBOARD_PORT}:3002"
     working_dir: /zeppelin/dashboard
     command: ["node", "serve.js"]
+
+  cftunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel run
+    environment:
+      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
+
+networks:
+  coolify:
+    external: true
