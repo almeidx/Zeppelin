@@ -57,7 +57,7 @@
       <h2>Data access and deletion requests</h2>
       <p>
         To request access to personal data stored about you, or to request its deletion, to the extent permitted by
-        GDPR, please send an email to <a href="mailto:contact@mivir.fi">contact@mivir.fi</a>.
+        GDPR, please send an email to <a href="mailto:contact@almeidx.dev">contact@almeidx.dev</a>.
       </p>
     </div>
   </div>
