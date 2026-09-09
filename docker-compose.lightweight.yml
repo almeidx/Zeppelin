@@ -4,6 +4,8 @@ services:
   migrate:
     build: &build
       context: .
+    networks: [coolify]
+    restart: no
     environment: &env
       - NODE_ENV=production
       - DB_HOST=${LIGHTWEIGHT_DB_HOST}
@@ -22,6 +24,7 @@ services:
         condition: service_completed_successfully
     build: *build
     restart: on-failure
+    networks: [coolify]
     environment: *env
     env_file:
       - .env
@@ -35,6 +38,7 @@ services:
         condition: service_completed_successfully
     build: *build
     restart: on-failure
+    networks: [coolify]
     environment: *env
     env_file:
       - .env
@@ -43,9 +47,20 @@ services:
   dashboard:
     build: *build
     restart: on-failure
+    networks: [coolify]
     environment: *env
     env_file:
       - .env
     ports:
       - "${LIGHTWEIGHT_DASHBOARD_PORT}:3002"
     command: ["dashboard"]
+
+  cftunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel run
+    environment:
+      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
+
+networks:
+  coolify:
+    external: true
